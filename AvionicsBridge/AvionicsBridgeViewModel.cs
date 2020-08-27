@@ -191,19 +191,10 @@ namespace AvionicsBridge
         
         public AvionicsBridgeViewModel()
         {
-            //lObjectIDs = new ObservableCollection<uint>();
-            //lObjectIDs.Add(1);
-
-            //lSimvarRequests = new ObservableCollection<SimvarRequest>();
             lErrorMessages = new ObservableCollection<string>();
 
             cmdToggleConnect = new BaseCommand((p) => { ToggleConnect(); });
             cmdToggleBroadcast = new BaseCommand((p) => { ToggleBroadcast(); });
-            //cmdAddRequest = new BaseCommand((p) => { AddRequest(null, null); });
-            //cmdRemoveSelectedRequest = new BaseCommand((p) => { RemoveSelectedRequest(); });
-            //cmdTrySetValue = new BaseCommand((p) => { TrySetValue(); });
-            //cmdLoadFiles = new BaseCommand((p) => { LoadFiles(); });
-            //cmdSaveFile = new BaseCommand((p) => { SaveFile(false); });
 
             m_oTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
             m_oTimer.Tick += new EventHandler(OnTick);
@@ -362,11 +353,6 @@ namespace AvionicsBridge
             RequestIfNotPending(m_TrueTrackSimvarRequest);
 
             // broadcast current data via UDP
-            /*if (m_oUdpClient != null)
-            {
-                var data = BitConverter.GetBytes(m_LatitudeSimvarRequest.dValue);
-                m_oUdpClient.Send(data, data.Length, "192.168.1.255", m_iPort);
-            }*/
             if (socket != null)
             {
                 byte[] data = new byte[48];
@@ -382,9 +368,7 @@ namespace AvionicsBridge
                 Buffer.BlockCopy(heading, 0, data, 32, 8);
                 var track = BitConverter.GetBytes(m_TrueTrackSimvarRequest.dValue);
                 Buffer.BlockCopy(track, 0, data, 40, 8);
-                //socket.SendTo(data, endpoint);
-                //socket.Send(data, data.Length, SocketFlags.None);
-                //socket.SendTo(data, endpoint);
+
                 socket.Send(data);
             }
         }
@@ -410,32 +394,6 @@ namespace AvionicsBridge
 
         private void ToggleBroadcast()
         {
-            /*if (m_oUdpClient == null)
-            {
-                int iPort = 0;
-                if (int.TryParse(m_sPort, out iPort))
-                {
-                    try
-                    {
-                        m_oUdpClient = new UdpClient();
-                        m_oUdpClient.DontFragment = true;
-                        m_oUdpClient.EnableBroadcast = true;
-                        m_oUdpClient.Client.Bind(new IPEndPoint(IPAddress.Any, iPort));
-                        m_iPort = iPort;
-                        sBroadcastButtonLabel = "Stop Broadcast";
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Unable to start UDP broadcast: " + ex.Message);
-                    }
-                }
-            }
-            else
-            {
-                m_oUdpClient.Close();
-                m_oUdpClient = null;
-                sBroadcastButtonLabel = "Start Broadcast";
-            }*/
             if (socket == null)
             {
                 int iPort = 0;
@@ -443,17 +401,7 @@ namespace AvionicsBridge
                 {
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                     socket.Connect(IPAddress.Parse("192.168.1.41"), iPort);
-                    //IPAddress multicast = IPAddress.Parse("224.168.100.2");
-                    //IPAddress localIp = IPAddress.Parse("192.168.1.59");
-                    //EndPoint localEP = (EndPoint)new IPEndPoint(localIp, 0);
-                    
-                    //socket.Bind(localEP);
-                    //socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.AddMembership, new MulticastOption(multicast, localIp));
-                    //socket.SetSocketOption(SocketOptionLevel.IP, SocketOptionName.MulticastTimeToLive, 10);
-                    //endpoint = new IPEndPoint(multicast, iPort);
-                    //socket.Connect(endpoint);
                     sBroadcastButtonLabel = "Stop Broadcast";
-                    //m_oTimer.Start();
                 }
             }
             else
@@ -461,7 +409,6 @@ namespace AvionicsBridge
                 socket.Close();
                 socket = null;
                 sBroadcastButtonLabel = "Start Broadcast";
-                //m_oTimer.Stop();
             }
         }
 
