@@ -369,17 +369,19 @@ namespace AvionicsBridge
             }*/
             if (socket != null)
             {
-                byte[] data = new byte[40];
+                byte[] data = new byte[48];
+                var now = BitConverter.GetBytes(DateTime.Now.Ticks);
+                Buffer.BlockCopy(now, 0, data, 0, 8);
                 var latitude = BitConverter.GetBytes(m_LatitudeSimvarRequest.dValue);
-                Buffer.BlockCopy(latitude, 0, data, 0, 8);
+                Buffer.BlockCopy(latitude, 0, data, 8, 8);
                 var longitude = BitConverter.GetBytes(m_LongitudeSimvarRequest.dValue);
-                Buffer.BlockCopy(longitude, 0, data, 8, 8);
+                Buffer.BlockCopy(longitude, 0, data, 16, 8);
                 var speed = BitConverter.GetBytes(m_GroundSpeedSimvarRequest.dValue);
-                Buffer.BlockCopy(speed, 0, data, 16, 8);
+                Buffer.BlockCopy(speed, 0, data, 24, 8);
                 var heading = BitConverter.GetBytes(m_TrueHeadingSimvarRequest.dValue);
-                Buffer.BlockCopy(heading, 0, data, 24, 8);
+                Buffer.BlockCopy(heading, 0, data, 32, 8);
                 var track = BitConverter.GetBytes(m_TrueTrackSimvarRequest.dValue);
-                Buffer.BlockCopy(track, 0, data, 32, 8);
+                Buffer.BlockCopy(track, 0, data, 40, 8);
                 //socket.SendTo(data, endpoint);
                 //socket.Send(data, data.Length, SocketFlags.None);
                 //socket.SendTo(data, endpoint);
