@@ -32,31 +32,7 @@
             </Ellipse.Style>
         </Ellipse>
 
-        <StackPanel DataContext="{Binding LatitudeSimvarRequest}" Orientation="Horizontal" Margin="29,210,0,0" Height="20" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Name}" Width="160" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Value, StringFormat=\{0:F9\}}" Width="80" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
-        </StackPanel>
-        <StackPanel DataContext="{Binding LongitudeSimvarRequest}" Orientation="Horizontal" Margin="29,230,0,0" Height="20" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Name}" Width="160" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Value, StringFormat=\{0:F9\}}" Width="80" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
-        </StackPanel>
-        <StackPanel DataContext="{Binding GroundSpeedSimvarRequest}" Orientation="Horizontal" Margin="29,250,0,0" Height="20" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Name}" Width="160" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Value, StringFormat=\{0:F9\}}" Width="80" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
-        </StackPanel>
-        <StackPanel DataContext="{Binding TrueHeadingSimvarRequest}" Orientation="Horizontal" Margin="29,270,0,0" Height="20" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Name}" Width="160" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Value, StringFormat=\{0:F9\}}" Width="80" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
-        </StackPanel>
-        <StackPanel DataContext="{Binding TrueTrackSimvarRequest}" Orientation="Horizontal" Margin="29,290,0,0" Height="20" Width="600" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TextBlock Text="{Binding Name}" Width="160" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Value, StringFormat=\{0:F9\}}" Width="80" Height="18" Margin="3,0"/>
-            <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
-        </StackPanel>
+        <local:SimVarsView DataContext="{Binding SimVarsViewModel}" HorizontalAlignment="Left" Margin="10,210,0,0"/>
 
         <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" Margin="29,310,0,0" HorizontalAlignment="Left"/>
 
