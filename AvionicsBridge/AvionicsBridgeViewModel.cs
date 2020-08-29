@@ -122,13 +122,6 @@ namespace AvionicsBridge
         }
         private string _broadcastButtonLabel = "Start Broadcast";
 
-        public string Port
-        {
-            get { return _port; }
-            set { this.SetProperty(ref _port, value); }
-        }
-        private string _port = "11000";
-
         public bool OddTick
         {
             get { return _oddTick; }

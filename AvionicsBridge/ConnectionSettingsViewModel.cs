@@ -50,7 +50,7 @@ namespace AvionicsBridge
                 this.SetProperty(ref _port, value);
             }
         }
-        private string _port;
+        private string _port = "11000";
 
         public string IP
         {
