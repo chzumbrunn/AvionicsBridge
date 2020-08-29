@@ -79,7 +79,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AvionicsBridgeViewModel.cs" />
+    <Compile Include="ConnectionSettingsView.xaml.cs">
+      <DependentUpon>ConnectionSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ConnectionSettingsViewModel.cs" />
     <Compile Include="ViewModel.cs" />
+    <Page Include="ConnectionSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
