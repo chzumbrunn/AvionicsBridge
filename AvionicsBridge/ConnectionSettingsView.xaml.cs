@@ -17,12 +17,10 @@ namespace AvionicsBridge
     /// <summary>
     /// Interaktionslogik für ConnectionSettingsView.xaml
     /// </summary>
-    public partial class ConnectionSettingsView : Window
+    public partial class ConnectionSettingsView : UserControl
     {
         public ConnectionSettingsView()
         {
-            this.DataContext = new ConnectionSettingsViewModel();
-
             InitializeComponent();
         }
     }

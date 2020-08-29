@@ -58,6 +58,8 @@
             <TextBlock Text="{Binding Units}" Width="80" Height="18" Margin="3,0"/>
         </StackPanel>
 
+        <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" Margin="29,310,0,0" HorizontalAlignment="Left"/>
+
         <Label Content="Errors" HorizontalAlignment="Left" Margin="10,454,0,0" VerticalAlignment="Top" Height="23" Width="83"/>
 
         <ListBox ItemsSource="{Binding ErrorMessages}" RenderTransformOrigin="0.5,0.5" Width="236" HorizontalAlignment="Left" Margin="10,482,0,10">

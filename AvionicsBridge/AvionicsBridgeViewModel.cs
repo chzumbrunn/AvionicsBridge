@@ -176,6 +176,8 @@ namespace AvionicsBridge
         public BaseCommand ToggleConnectCommand { get; private set; }
         public BaseCommand ToggleBroadcastCommand { get; private set; }
 
+        public ConnectionSettingsViewModel ConnectionSettingsViewModel { get; private set; }
+
         #endregion
 
         #region Real time
@@ -200,6 +202,8 @@ namespace AvionicsBridge
             _timer.Tick += new EventHandler(OnTick);
 
             SetupRequests();
+
+            this.ConnectionSettingsViewModel = new ConnectionSettingsViewModel();
         }
 
         void SetupRequests()
@@ -393,11 +397,22 @@ namespace AvionicsBridge
         {
             if (socket == null)
             {
-                int port;
-                if (int.TryParse(_port, out port))
+                var maybeSettings = ConnectionSettingsViewModel.GetConnectionSettings();
+                if (maybeSettings.HasValue)
                 {
+                    var settings = maybeSettings.Value;
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    socket.Connect(IPAddress.Parse("192.168.1.41"), port);
+                    socket.DontFragment = true;
+                    if (settings.ConnectionType != ConnectionType.Broadcast)
+                    {
+                        socket.Connect(settings.IPAddress, settings.Port);
+                    }
+                    else
+                    {
+                        socket.EnableBroadcast = true;
+                        socket.MulticastLoopback = false;
+                        socket.Connect("255.255.255.255", settings.Port);
+                    }
                     BroadcastButtonLabel = "Stop Broadcast";
                 }
             }
