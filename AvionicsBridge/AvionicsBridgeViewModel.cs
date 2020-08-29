@@ -21,27 +21,27 @@ namespace AvionicsBridge
 
     public class SimvarRequest : ObservableObject
     {
-        public DEFINITION eDef = DEFINITION.Dummy;
-        public REQUEST eRequest = REQUEST.Dummy;
+        public DEFINITION Definition = DEFINITION.Dummy;
+        public REQUEST Request = REQUEST.Dummy;
 
-        public string sName { get; set; }
+        public string Name { get; set; }
 
-        public double dValue
+        public double Value
         {
-            get { return m_dValue; }
-            set { this.SetProperty(ref m_dValue, value); }
+            get { return _value; }
+            set { this.SetProperty(ref _value, value); }
         }
-        private double m_dValue = 0.0;
+        private double _value = 0.0;
 
-        public string sUnits { get; set; }
+        public string Units { get; set; }
 
-        public bool bPending = true;
-        public bool bStillPending
+        public bool Pending = true;
+        public bool StillPending
         {
-            get { return m_bStillPending; }
-            set { this.SetProperty(ref m_bStillPending, value); }
+            get { return _stillPending; }
+            set { this.SetProperty(ref _stillPending, value); }
         }
-        private bool m_bStillPending = false;
+        private bool _stillPending = false;
     };
 
     public class AvionicsBridgeViewModel : BaseViewModel, IBaseSimConnectWrapper
@@ -52,20 +52,20 @@ namespace AvionicsBridge
         public const int WM_USER_SIMCONNECT = 0x0402;
 
         /// Window handle
-        private IntPtr m_hWnd = new IntPtr(0);
+        private IntPtr _windowHandle = new IntPtr(0);
 
         /// SimConnect object
-        private SimConnect m_oSimConnect = null;
+        private SimConnect _simConnect = null;
 
-        public bool bConnected
+        public bool Connected
         {
-            get { return m_bConnected; }
-            private set { this.SetProperty(ref m_bConnected, value); }
+            get { return _connected; }
+            private set { this.SetProperty(ref _connected, value); }
         }
-        private bool m_bConnected = false;
+        private bool _connected = false;
 
-        private uint m_iCurrentDefinition = 0;
-        private uint m_iCurrentRequest = 0;
+        private uint _currentDefinition = 0;
+        private uint _currentRequest = 0;
 
         public int GetUserSimConnectWinEvent()
         {
@@ -74,113 +74,113 @@ namespace AvionicsBridge
 
         public void ReceiveSimConnectMessage()
         {
-            m_oSimConnect?.ReceiveMessage();
+            _simConnect?.ReceiveMessage();
         }
 
-        public void SetWindowHandle(IntPtr _hWnd)
+        public void SetWindowHandle(IntPtr windowHandle)
         {
-            m_hWnd = _hWnd;
+            _windowHandle = windowHandle;
         }
 
         public void Disconnect()
         {
             Console.WriteLine("Disconnect");
 
-            m_oTimer.Stop();
-            bOddTick = false;
+            _timer.Stop();
+            OddTick = false;
 
-            if (m_oSimConnect != null)
+            if (_simConnect != null)
             {
                 /// Dispose serves the same purpose as SimConnect_Close()
-                m_oSimConnect.Dispose();
-                m_oSimConnect = null;
+                _simConnect.Dispose();
+                _simConnect = null;
             }
 
-            sConnectButtonLabel = "Connect";
-            bConnected = false;
+            ConnectButtonLabel = "Connect";
+            Connected = false;
 
             // Set all requests as pending
-            LatitudeSimvarRequest.bPending = true;
-            LatitudeSimvarRequest.bStillPending = true;
+            LatitudeSimvarRequest.Pending = true;
+            LatitudeSimvarRequest.StillPending = true;
         }
 
         #endregion
 
         #region UI bindings
 
-        public string sConnectButtonLabel
+        public string ConnectButtonLabel
         {
-            get { return m_sConnectButtonLabel; }
-            private set { this.SetProperty(ref m_sConnectButtonLabel, value); }
+            get { return _connectButtonLabel; }
+            private set { this.SetProperty(ref _connectButtonLabel, value); }
         }
-        private string m_sConnectButtonLabel = "Connect";
+        private string _connectButtonLabel = "Connect";
 
-        public string sBroadcastButtonLabel
+        public string BroadcastButtonLabel
         {
-            get { return m_sBroadcastButtonLabel; }
-            private set { this.SetProperty(ref m_sBroadcastButtonLabel, value); }
+            get { return _broadcastButtonLabel; }
+            private set { this.SetProperty(ref _broadcastButtonLabel, value); }
         }
-        private string m_sBroadcastButtonLabel = "Start Broadcast";
+        private string _broadcastButtonLabel = "Start Broadcast";
 
-        public string sPort
+        public string Port
         {
-            get { return m_sPort; }
-            set { this.SetProperty(ref m_sPort, value); }
+            get { return _port; }
+            set { this.SetProperty(ref _port, value); }
         }
-        private string m_sPort = "11000";
+        private string _port = "11000";
 
-        public bool bOddTick
+        public bool OddTick
         {
-            get { return m_bOddTick; }
-            set { this.SetProperty(ref m_bOddTick, value); }
+            get { return _oddTick; }
+            set { this.SetProperty(ref _oddTick, value); }
         }
-        private bool m_bOddTick = false;
+        private bool _oddTick = false;
 
         public SimvarRequest LatitudeSimvarRequest
         {
-            get { return m_LatitudeSimvarRequest; }
-            set { this.SetProperty(ref m_LatitudeSimvarRequest, value); }
+            get { return _latitudeSimvarRequest; }
+            set { this.SetProperty(ref _latitudeSimvarRequest, value); }
         }
-        private SimvarRequest m_LatitudeSimvarRequest = null;
+        private SimvarRequest _latitudeSimvarRequest = null;
 
         public SimvarRequest LongitudeSimvarRequest
         {
-            get { return m_LongitudeSimvarRequest; }
-            set { this.SetProperty(ref m_LongitudeSimvarRequest, value); }
+            get { return _longitudeSimvarRequest; }
+            set { this.SetProperty(ref _longitudeSimvarRequest, value); }
         }
-        private SimvarRequest m_LongitudeSimvarRequest = null;
+        private SimvarRequest _longitudeSimvarRequest = null;
 
         public SimvarRequest GroundSpeedSimvarRequest
         {
-            get { return m_GroundSpeedSimvarRequest; }
-            set { this.SetProperty(ref m_GroundSpeedSimvarRequest, value); }
+            get { return _groundSpeedSimvarRequest; }
+            set { this.SetProperty(ref _groundSpeedSimvarRequest, value); }
         }
-        private SimvarRequest m_GroundSpeedSimvarRequest = null;
+        private SimvarRequest _groundSpeedSimvarRequest = null;
 
         public SimvarRequest TrueHeadingSimvarRequest
         {
-            get { return m_TrueHeadingSimvarRequest; }
-            set { this.SetProperty(ref m_TrueHeadingSimvarRequest, value); }
+            get { return _trueHeadingSimvarRequest; }
+            set { this.SetProperty(ref _trueHeadingSimvarRequest, value); }
         }
-        private SimvarRequest m_TrueHeadingSimvarRequest = null;
+        private SimvarRequest _trueHeadingSimvarRequest = null;
 
         public SimvarRequest TrueTrackSimvarRequest
         {
-            get { return m_TrueTrackSimvarRequest; }
-            set { this.SetProperty(ref m_TrueTrackSimvarRequest, value); }
+            get { return _trueTrackSimvarRequest; }
+            set { this.SetProperty(ref _trueTrackSimvarRequest, value); }
         }
-        private SimvarRequest m_TrueTrackSimvarRequest = null;
+        private SimvarRequest _trueTrackSimvarRequest = null;
 
-        public ObservableCollection<string> lErrorMessages { get; private set; }
+        public ObservableCollection<string> ErrorMessages { get; private set; }
 
-        public BaseCommand cmdToggleConnect { get; private set; }
-        public BaseCommand cmdToggleBroadcast { get; private set; }
+        public BaseCommand ToggleConnectCommand { get; private set; }
+        public BaseCommand ToggleBroadcastCommand { get; private set; }
 
         #endregion
 
         #region Real time
 
-        private DispatcherTimer m_oTimer = new DispatcherTimer();
+        private DispatcherTimer _timer = new DispatcherTimer();
 
         #endregion
 
@@ -191,43 +191,43 @@ namespace AvionicsBridge
         
         public AvionicsBridgeViewModel()
         {
-            lErrorMessages = new ObservableCollection<string>();
+            ErrorMessages = new ObservableCollection<string>();
 
-            cmdToggleConnect = new BaseCommand((p) => { ToggleConnect(); });
-            cmdToggleBroadcast = new BaseCommand((p) => { ToggleBroadcast(); });
+            ToggleConnectCommand = new BaseCommand((p) => { ToggleConnect(); });
+            ToggleBroadcastCommand = new BaseCommand((p) => { ToggleBroadcast(); });
 
-            m_oTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
-            m_oTimer.Tick += new EventHandler(OnTick);
+            _timer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            _timer.Tick += new EventHandler(OnTick);
 
             SetupRequests();
         }
 
         void SetupRequests()
         {
-            m_LatitudeSimvarRequest = SetupRequest("GPS POSITION LAT", "degrees");
-            m_LongitudeSimvarRequest = SetupRequest("GPS POSITION LON", "degrees");
-            m_GroundSpeedSimvarRequest = SetupRequest("GPS GROUND SPEED", "meter/second");
-            m_TrueHeadingSimvarRequest = SetupRequest("GPS GROUND TRUE HEADING", "radians");
-            m_TrueTrackSimvarRequest = SetupRequest("GPS GROUND TRUE TRACK", "radians");
+            _latitudeSimvarRequest = SetupRequest("GPS POSITION LAT", "degrees");
+            _longitudeSimvarRequest = SetupRequest("GPS POSITION LON", "degrees");
+            _groundSpeedSimvarRequest = SetupRequest("GPS GROUND SPEED", "meter/second");
+            _trueHeadingSimvarRequest = SetupRequest("GPS GROUND TRUE HEADING", "radians");
+            _trueTrackSimvarRequest = SetupRequest("GPS GROUND TRUE TRACK", "radians");
         }
 
-        SimvarRequest SetupRequest(string _sSimvarRequest, string _sUnitRequest)
+        SimvarRequest SetupRequest(string requestName, string requestUnit)
         {
-            SimvarRequest oSimvarRequest = new SimvarRequest
+            SimvarRequest simvarRequest = new SimvarRequest
             {
-                eDef = (DEFINITION)m_iCurrentDefinition,
-                eRequest = (REQUEST)m_iCurrentRequest,
-                sName = _sSimvarRequest,
-                sUnits = _sUnitRequest
+                Definition = (DEFINITION)_currentDefinition,
+                Request = (REQUEST)_currentRequest,
+                Name = requestName,
+                Units = requestUnit
             };
 
-            oSimvarRequest.bPending = !RegisterToSimConnect(oSimvarRequest);
-            oSimvarRequest.bStillPending = oSimvarRequest.bPending;
+            simvarRequest.Pending = !RegisterToSimConnect(simvarRequest);
+            simvarRequest.StillPending = simvarRequest.Pending;
 
-            ++m_iCurrentDefinition;
-            ++m_iCurrentRequest;
+            ++_currentDefinition;
+            ++_currentRequest;
 
-            return oSimvarRequest;
+            return simvarRequest;
         }
 
         private void Connect()
@@ -237,17 +237,17 @@ namespace AvionicsBridge
             try
             {
                 /// The constructor is similar to SimConnect_Open in the native API
-                m_oSimConnect = new SimConnect("Simconnect - Simvar test", m_hWnd, WM_USER_SIMCONNECT, null, 0);
+                _simConnect = new SimConnect("Simconnect - Simvar test", _windowHandle, WM_USER_SIMCONNECT, null, 0);
 
                 /// Listen to connect and quit msgs
-                m_oSimConnect.OnRecvOpen += new SimConnect.RecvOpenEventHandler(SimConnect_OnRecvOpen);
-                m_oSimConnect.OnRecvQuit += new SimConnect.RecvQuitEventHandler(SimConnect_OnRecvQuit);
+                _simConnect.OnRecvOpen += new SimConnect.RecvOpenEventHandler(SimConnect_OnRecvOpen);
+                _simConnect.OnRecvQuit += new SimConnect.RecvQuitEventHandler(SimConnect_OnRecvQuit);
 
                 /// Listen to exceptions
-                m_oSimConnect.OnRecvException += new SimConnect.RecvExceptionEventHandler(SimConnect_OnRecvException);
+                _simConnect.OnRecvException += new SimConnect.RecvExceptionEventHandler(SimConnect_OnRecvException);
 
                 /// Catch a simobject data request
-                m_oSimConnect.OnRecvSimobjectDataBytype += new SimConnect.RecvSimobjectDataBytypeEventHandler(SimConnect_OnRecvSimobjectDataBytype);
+                _simConnect.OnRecvSimobjectDataBytype += new SimConnect.RecvSimobjectDataBytypeEventHandler(SimConnect_OnRecvSimobjectDataBytype);
             }
             catch (COMException ex)
             {
@@ -257,10 +257,10 @@ namespace AvionicsBridge
 
         void RegisterIfPending(SimvarRequest simvar)
         {
-            if (simvar.bPending)
+            if (simvar.Pending)
             {
-                simvar.bPending = !RegisterToSimConnect(simvar);
-                simvar.bStillPending = simvar.bPending;
+                simvar.Pending = !RegisterToSimConnect(simvar);
+                simvar.StillPending = simvar.Pending;
             }
         }
 
@@ -269,18 +269,18 @@ namespace AvionicsBridge
             Console.WriteLine("SimConnect_OnRecvOpen");
             Console.WriteLine("Connected to KH");
 
-            sConnectButtonLabel = "Disconnect";
-            bConnected = true;
+            ConnectButtonLabel = "Disconnect";
+            Connected = true;
 
             // Register pending requests
-            RegisterIfPending(m_LatitudeSimvarRequest);
-            RegisterIfPending(m_LongitudeSimvarRequest);
-            RegisterIfPending(m_GroundSpeedSimvarRequest);
-            RegisterIfPending(m_TrueHeadingSimvarRequest);
-            RegisterIfPending(m_TrueTrackSimvarRequest);
+            RegisterIfPending(_latitudeSimvarRequest);
+            RegisterIfPending(_longitudeSimvarRequest);
+            RegisterIfPending(_groundSpeedSimvarRequest);
+            RegisterIfPending(_trueHeadingSimvarRequest);
+            RegisterIfPending(_trueTrackSimvarRequest);
 
-            m_oTimer.Start();
-            bOddTick = false;
+            _timer.Start();
+            OddTick = false;
         }
 
         /// The case where the user closes game
@@ -294,20 +294,20 @@ namespace AvionicsBridge
 
         private void SimConnect_OnRecvException(SimConnect sender, SIMCONNECT_RECV_EXCEPTION data)
         {
-            SIMCONNECT_EXCEPTION eException = (SIMCONNECT_EXCEPTION)data.dwException;
-            Console.WriteLine("SimConnect_OnRecvException: " + eException.ToString());
+            SIMCONNECT_EXCEPTION exception = (SIMCONNECT_EXCEPTION)data.dwException;
+            Console.WriteLine("SimConnect_OnRecvException: " + exception.ToString());
 
-            lErrorMessages.Add("SimConnect : " + eException.ToString());
+            ErrorMessages.Add("SimConnect : " + exception.ToString());
         }
 
         void HandleRequest(SimvarRequest simvar, SIMCONNECT_RECV_SIMOBJECT_DATA_BYTYPE data)
         {
-            if (data.dwRequestID == (uint)simvar.eRequest)
+            if (data.dwRequestID == (uint)simvar.Request)
             {
-                double dValue = (double)data.dwData[0];
-                simvar.dValue = dValue;
-                simvar.bPending = false;
-                simvar.bStillPending = false;
+                double value = (double)data.dwData[0];
+                simvar.Value = value;
+                simvar.Pending = false;
+                simvar.StillPending = false;
             }
         }
 
@@ -315,26 +315,23 @@ namespace AvionicsBridge
         {
             Console.WriteLine("SimConnect_OnRecvSimobjectDataBytype");
 
-            uint iRequest = data.dwRequestID;
-            uint iObject = data.dwObjectID;
-
-            HandleRequest(m_LatitudeSimvarRequest, data);
-            HandleRequest(m_LongitudeSimvarRequest, data);
-            HandleRequest(m_GroundSpeedSimvarRequest, data);
-            HandleRequest(m_TrueHeadingSimvarRequest, data);
-            HandleRequest(m_TrueTrackSimvarRequest, data);
+            HandleRequest(_latitudeSimvarRequest, data);
+            HandleRequest(_longitudeSimvarRequest, data);
+            HandleRequest(_groundSpeedSimvarRequest, data);
+            HandleRequest(_trueHeadingSimvarRequest, data);
+            HandleRequest(_trueTrackSimvarRequest, data);
         }
 
         void RequestIfNotPending(SimvarRequest simvar)
         {
-            if (!simvar.bPending)
+            if (!simvar.Pending)
             {
-                m_oSimConnect?.RequestDataOnSimObjectType(simvar.eRequest, simvar.eDef, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
-                simvar.bPending = true;
+                _simConnect?.RequestDataOnSimObjectType(simvar.Request, simvar.Definition, 0, SIMCONNECT_SIMOBJECT_TYPE.USER);
+                simvar.Pending = true;
             }
             else
             {
-                simvar.bStillPending = true;
+                simvar.StillPending = true;
             }
         }
 
@@ -344,13 +341,13 @@ namespace AvionicsBridge
         {
             Console.WriteLine("OnTick");
 
-            bOddTick = !bOddTick;
+            OddTick = !OddTick;
 
-            RequestIfNotPending(m_LatitudeSimvarRequest);
-            RequestIfNotPending(m_LongitudeSimvarRequest);
-            RequestIfNotPending(m_GroundSpeedSimvarRequest);
-            RequestIfNotPending(m_TrueHeadingSimvarRequest);
-            RequestIfNotPending(m_TrueTrackSimvarRequest);
+            RequestIfNotPending(_latitudeSimvarRequest);
+            RequestIfNotPending(_longitudeSimvarRequest);
+            RequestIfNotPending(_groundSpeedSimvarRequest);
+            RequestIfNotPending(_trueHeadingSimvarRequest);
+            RequestIfNotPending(_trueTrackSimvarRequest);
 
             // broadcast current data via UDP
             if (socket != null)
@@ -358,15 +355,15 @@ namespace AvionicsBridge
                 byte[] data = new byte[48];
                 var now = BitConverter.GetBytes(DateTime.Now.Ticks);
                 Buffer.BlockCopy(now, 0, data, 0, 8);
-                var latitude = BitConverter.GetBytes(m_LatitudeSimvarRequest.dValue);
+                var latitude = BitConverter.GetBytes(_latitudeSimvarRequest.Value);
                 Buffer.BlockCopy(latitude, 0, data, 8, 8);
-                var longitude = BitConverter.GetBytes(m_LongitudeSimvarRequest.dValue);
+                var longitude = BitConverter.GetBytes(_longitudeSimvarRequest.Value);
                 Buffer.BlockCopy(longitude, 0, data, 16, 8);
-                var speed = BitConverter.GetBytes(m_GroundSpeedSimvarRequest.dValue);
+                var speed = BitConverter.GetBytes(_groundSpeedSimvarRequest.Value);
                 Buffer.BlockCopy(speed, 0, data, 24, 8);
-                var heading = BitConverter.GetBytes(m_TrueHeadingSimvarRequest.dValue);
+                var heading = BitConverter.GetBytes(_trueHeadingSimvarRequest.Value);
                 Buffer.BlockCopy(heading, 0, data, 32, 8);
-                var track = BitConverter.GetBytes(m_TrueTrackSimvarRequest.dValue);
+                var track = BitConverter.GetBytes(_trueTrackSimvarRequest.Value);
                 Buffer.BlockCopy(track, 0, data, 40, 8);
 
                 socket.Send(data);
@@ -375,7 +372,7 @@ namespace AvionicsBridge
 
         private void ToggleConnect()
         {
-            if (m_oSimConnect == null)
+            if (_simConnect == null)
             {
                 try
                 {
@@ -396,31 +393,31 @@ namespace AvionicsBridge
         {
             if (socket == null)
             {
-                int iPort = 0;
-                if (int.TryParse(m_sPort, out iPort))
+                int port;
+                if (int.TryParse(_port, out port))
                 {
                     socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    socket.Connect(IPAddress.Parse("192.168.1.41"), iPort);
-                    sBroadcastButtonLabel = "Stop Broadcast";
+                    socket.Connect(IPAddress.Parse("192.168.1.41"), port);
+                    BroadcastButtonLabel = "Stop Broadcast";
                 }
             }
             else
             {
                 socket.Close();
                 socket = null;
-                sBroadcastButtonLabel = "Start Broadcast";
+                BroadcastButtonLabel = "Start Broadcast";
             }
         }
 
-        private bool RegisterToSimConnect(SimvarRequest _oSimvarRequest)
+        private bool RegisterToSimConnect(SimvarRequest simvarRequest)
         {
-            if (m_oSimConnect != null)
+            if (_simConnect != null)
             {
                 /// Define a data structure
-                m_oSimConnect.AddToDataDefinition(_oSimvarRequest.eDef, _oSimvarRequest.sName, _oSimvarRequest.sUnits, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
+                _simConnect.AddToDataDefinition(simvarRequest.Definition, simvarRequest.Name, simvarRequest.Units, SIMCONNECT_DATATYPE.FLOAT64, 0.0f, SimConnect.SIMCONNECT_UNUSED);
                 /// IMPORTANT: Register it with the simconnect managed wrapper marshaller
                 /// If you skip this step, you will only receive a uint in the .dwData field.
-                m_oSimConnect.RegisterDataDefineStruct<double>(_oSimvarRequest.eDef);
+                _simConnect.RegisterDataDefineStruct<double>(simvarRequest.Definition);
 
                 return true;
             }
@@ -430,9 +427,9 @@ namespace AvionicsBridge
             }
         }
 
-        public void SetTickSliderValue(int _iValue)
+        public void SetTickSliderValue(int value)
         {
-            m_oTimer.Interval = new TimeSpan(0, 0, 0, 0, (int)(_iValue));
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, (int)(value));
         }
     }
 }
