@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel>
-        <TextBlock Text="Sim Variables" />
+        <TextBlock Text="Sim Variables" Style="{StaticResource HeaderStyle}" />
         <ItemsControl ItemsSource="{Binding SimVars}" HorizontalContentAlignment="Stretch">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

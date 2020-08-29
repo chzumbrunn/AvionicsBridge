@@ -32,9 +32,9 @@
             </Ellipse.Style>
         </Ellipse>
 
-        <local:SimVarsView DataContext="{Binding SimVarsViewModel}" HorizontalAlignment="Left" Margin="10,210,0,0"/>
+        <local:SimVarsView DataContext="{Binding SimVarsViewModel}" HorizontalAlignment="Left" Margin="29,210,0,0"/>
 
-        <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" Margin="29,310,0,0" HorizontalAlignment="Left"/>
+        <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" Margin="29,330,0,0" HorizontalAlignment="Left"/>
 
         <Label Content="Errors" HorizontalAlignment="Left" Margin="10,454,0,0" VerticalAlignment="Top" Height="23" Width="83"/>
 
