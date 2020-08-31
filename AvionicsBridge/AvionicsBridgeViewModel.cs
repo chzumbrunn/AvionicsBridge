@@ -106,10 +106,7 @@ namespace AvionicsBridge
 
         #endregion
 
-        private UdpClient m_oUdpClient;
-        private int m_iPort;
         private Socket socket;
-        private IPEndPoint endpoint;
         
         public AvionicsBridgeViewModel()
         {
@@ -147,14 +144,14 @@ namespace AvionicsBridge
             }
             catch (COMException ex)
             {
-                Console.WriteLine("Connection to KH failed: " + ex.Message);
+                Console.WriteLine("Connection to Sim failed: " + ex.Message);
             }
         }
 
         private void SimConnect_OnRecvOpen(SimConnect sender, SIMCONNECT_RECV_OPEN data)
         {
             Console.WriteLine("SimConnect_OnRecvOpen");
-            Console.WriteLine("Connected to KH");
+            Console.WriteLine("Connected to Sim");
 
             ConnectButtonLabel = "Disconnect";
             Connected = true;
@@ -169,7 +166,7 @@ namespace AvionicsBridge
         private void SimConnect_OnRecvQuit(SimConnect sender, SIMCONNECT_RECV data)
         {
             Console.WriteLine("SimConnect_OnRecvQuit");
-            Console.WriteLine("KH has exited");
+            Console.WriteLine("Sim has exited");
 
             Disconnect();
         }
@@ -230,7 +227,7 @@ namespace AvionicsBridge
                 }
                 catch (COMException ex)
                 {
-                    Console.WriteLine("Unable to connect to KH: " + ex.Message);
+                    Console.WriteLine("Unable to connect to Sim: " + ex.Message);
                 }
             }
             else
