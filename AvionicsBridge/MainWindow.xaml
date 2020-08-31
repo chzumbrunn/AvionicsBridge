@@ -8,37 +8,41 @@
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="800" MinWidth="800" MinHeight="700">
-    <Grid>
-        <Button x:Name="btn_Connection" Content="{Binding ConnectButtonLabel}" Command="{Binding ToggleConnectCommand}" HorizontalAlignment="Left" Margin="29,68,0,0" VerticalAlignment="Top" Width="146" Height="48"/>
-        <Button x:Name="btn_Broadcast" Content="{Binding BroadcastButtonLabel}" Command="{Binding ToggleBroadcastCommand}" HorizontalAlignment="Left" Margin="29,128,0,0" VerticalAlignment="Top" Width="146" Height="48"/>
-
-        <Ellipse HorizontalAlignment="Left" Height="14" Margin="251,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="14">
-            <Ellipse.Style>
-                <Style TargetType="Ellipse">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Connected}" Value="false">
-                            <Setter Property="Fill" Value="#FFFF5030" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding Connected}" Value="true">
-                            <Setter Property="Fill" Value="#FF50FF30" />
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding OddTick}" Value="true">
-                            <!-- Assume bOddTick is true only when bConnected is true-->
-                            <Setter Property="Fill" Value="#FF45E2F4" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Ellipse.Style>
-        </Ellipse>
-
-        <local:SimVarsView DataContext="{Binding SimVarsViewModel}" HorizontalAlignment="Left" Margin="29,210,0,0"/>
-
-        <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" Margin="29,330,0,0" HorizontalAlignment="Left"/>
-
-        <Label Content="Errors" HorizontalAlignment="Left" Margin="10,454,0,0" VerticalAlignment="Top" Height="23" Width="83"/>
-
-        <ListBox ItemsSource="{Binding ErrorMessages}" RenderTransformOrigin="0.5,0.5" Width="236" HorizontalAlignment="Left" Margin="10,482,0,10">
+        Title="MainWindow" Height="650" Width="400" MinHeight="640" MinWidth="400">
+    <StackPanel Margin="10,0">
+        <DockPanel>
+            <TextBlock Text="AvionicsBridge" Style="{StaticResource TitleStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Ellipse HorizontalAlignment="Right" Height="14" Stroke="Black" Margin="0,10" VerticalAlignment="Top" Width="14">
+                <Ellipse.Style>
+                    <Style TargetType="Ellipse">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Connected}" Value="false">
+                                <Setter Property="Fill" Value="#FFFF5030" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Connected}" Value="true">
+                                <Setter Property="Fill" Value="#FF50FF30" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding OddTick}" Value="true">
+                                <!-- Assume bOddTick is true only when bConnected is true-->
+                                <Setter Property="Fill" Value="#FF45E2F4" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Ellipse.Style>
+            </Ellipse>
+        </DockPanel>
+        <TextBlock Text="Sim Settings" Style="{StaticResource HeaderStyle}" />
+        <StackPanel Orientation="Horizontal" Margin="7">
+            <Label Content="Update Period" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Slider x:Name="sl_Tick" Value="1000" Thumb.DragCompleted="Slider_DragCompleted" HorizontalAlignment="Left" VerticalAlignment="Center" Width="63" Minimum="50" Maximum="1000" LargeChange="100" SmallChange="10" IsDirectionReversed="True" />
+            <TextBlock Text="{Binding UpdatePeriod}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0" />
+        </StackPanel>
+        <Button x:Name="btn_Connection" Content="{Binding ConnectButtonLabel}" Command="{Binding ToggleConnectCommand}" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="146" Height="48"/>
+        <local:SimVarsView DataContext="{Binding SimVarsViewModel}" HorizontalAlignment="Left" />
+        <local:ConnectionSettingsView DataContext="{Binding ConnectionSettingsViewModel}" HorizontalAlignment="Left"/>
+        <Button x:Name="btn_Broadcast" Content="{Binding BroadcastButtonLabel}" Command="{Binding ToggleBroadcastCommand}" Margin="10,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="146" Height="48"/>
+        <TextBlock Text="Errors" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource HeaderStyle}" />
+        <ListBox ItemsSource="{Binding ErrorMessages}" RenderTransformOrigin="0.5,0.5" Margin="10" Width="236" Height="150" HorizontalAlignment="Left">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Foreground" Value="Red"/>
@@ -50,10 +54,5 @@
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
         </ListBox>
-
-        <Label Content="Update Period" HorizontalAlignment="Left" Margin="183,61,0,0" VerticalAlignment="Top" Height="25"/>
-        <Slider x:Name="sl_Tick" Value="1000" Thumb.DragCompleted="Slider_DragCompleted" HorizontalAlignment="Left" Margin="183,86,0,0" VerticalAlignment="Top" Width="63" Minimum="50" Maximum="1000" LargeChange="100" SmallChange="10" IsDirectionReversed="True" />
-        <TextBlock Text="{Binding UpdatePeriod}" HorizontalAlignment="Left" Margin="260,86,0,0" VerticalAlignment="Top" />
-
-    </Grid>
+    </StackPanel>
 </Window>

@@ -4,9 +4,12 @@
              xmlns:local="clr-namespace:AvionicsBridge"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+        <Style x:Key="TitleStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="24" />
-            <Setter Property="FontStyle" Value="Italic" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="TextDecorations" Value="Underline" />
         </Style>
     </Application.Resources>
