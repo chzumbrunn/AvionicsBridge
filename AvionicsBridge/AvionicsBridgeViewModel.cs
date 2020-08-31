@@ -235,6 +235,7 @@ namespace AvionicsBridge
                 catch (COMException ex)
                 {
                     Console.WriteLine("Unable to connect to Sim: " + ex.Message);
+                    ErrorMessages.Add("Unable to connect to Sim: " + ex.ToString());
                 }
             }
             else
@@ -250,20 +251,31 @@ namespace AvionicsBridge
                 var maybeSettings = ConnectionSettingsViewModel.GetConnectionSettings();
                 if (maybeSettings.HasValue)
                 {
-                    var settings = maybeSettings.Value;
-                    socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                    socket.DontFragment = true;
-                    if (settings.ConnectionType != ConnectionType.Broadcast)
+                    try
                     {
-                        socket.Connect(settings.IPAddress, settings.Port);
+                        var settings = maybeSettings.Value;
+                        socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                        socket.DontFragment = true;
+                        if (settings.ConnectionType != ConnectionType.Broadcast)
+                        {
+                            socket.Connect(settings.IPAddress, settings.Port);
+                        }
+                        else
+                        {
+                            socket.EnableBroadcast = true;
+                            socket.MulticastLoopback = false;
+                            socket.Connect("255.255.255.255", settings.Port);
+                        }
+                        BroadcastButtonLabel = "Stop Broadcast";
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        socket.EnableBroadcast = true;
-                        socket.MulticastLoopback = false;
-                        socket.Connect("255.255.255.255", settings.Port);
+                        ErrorMessages.Add("Network connection error: " + ex.ToString());
                     }
-                    BroadcastButtonLabel = "Stop Broadcast";
+                }
+                else
+                {
+                    ErrorMessages.Add("Invalid connection settings");
                 }
             }
             else
