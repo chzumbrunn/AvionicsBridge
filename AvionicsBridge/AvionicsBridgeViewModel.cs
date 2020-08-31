@@ -90,6 +90,13 @@ namespace AvionicsBridge
         }
         private bool _oddTick = false;
 
+        public string UpdatePeriod
+        {
+            get { return _updatePeriod; }
+            set { this.SetProperty(ref _updatePeriod, value); }
+        }
+        private string _updatePeriod = "1000 ms";
+
         public ObservableCollection<string> ErrorMessages { get; private set; }
 
         public BaseCommand ToggleConnectCommand { get; private set; }
@@ -270,6 +277,7 @@ namespace AvionicsBridge
         public void SetTickSliderValue(int value)
         {
             _timer.Interval = new TimeSpan(0, 0, 0, 0, (int)(value));
+            UpdatePeriod = String.Format("{0} ms", value);
         }
     }
 }
